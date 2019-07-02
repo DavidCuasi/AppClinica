@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body
+	style="background-image: url(../images/background.jpg);background-repeat: no-repeat;background-size:100% 150%">
+
+	<div align="center">
+		<p:panel
+			style="width:305px;height:280px;background-image: url(../images/clinicaCare.png);background-repeat: no-repeat;border: none;background-size:80% 80%;background-position: center;background-color:transparent">
+		</p:panel>
+	</div>
+	<p></p>
+	<div></div>
+	<div>
+		<p></p>
+	</div>
+
+	<div align="center">
+		<p:panel header="LOGIN" style="width:500px;border-radius: 10px">
+			<p:growl autoUpdate="true"></p:growl>
+			<h:form>
+				<h:panelGrid columns="2">
+					<h:outputText value="Id de usuario:" style="font-weight:bold" />
+					<p:inputText value="#{controllerLogin.cedulaEmp}" required="true"></p:inputText>
+					<h:outputText value="Clave:" style="font-weight:bold" />
+					<p:keyboard value="#{controllerLogin.paswordUs}" password="true" />
+				</h:panelGrid>
+				<p:commandButton value="Ingresar" icon="fa fa-key"
+					action="#{controllerLogin.actionLogin()}"></p:commandButton>
+			</h:form>
+		</p:panel>
+	</div>
+</h:body>
+</html>

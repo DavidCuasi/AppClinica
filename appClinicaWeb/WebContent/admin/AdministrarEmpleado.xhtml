@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event listener="#{controllerLogin.actionComprobarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
+<h:head></h:head>
+<body>
+	<h:form>
+		<p:commandButton value="ATRAS" icon="fa fa-mail-reply"
+			action="#{controllerLogin.actionReturnAdmin()}" />
+	</h:form>
+	<div align="center">
+		<p:panel header="NUEVO EMPLEADO" style="width:500px">
+			<p:growl autoUpdate="true"></p:growl>
+			<h:form id="form">
+				<p:panelGrid columns="2">
+					<h:outputText value="Empleado:" />
+					<p:selectOneMenu value="#{controllerEmpleado.cedulaEmp}"
+						style="width:125px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItems value="#{controllerUsuario.lista}" var="h"
+							itemLabel="#{h.nombresEmp}" itemValue="#{h.cedulaEmp}" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Area de Trabajo" />
+					<p:selectOneMenu value="#{controllerEmpleado.idArea}"
+						style="width:125px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItems value="#{controllerEmpleado.listaAreaTrabajo}"
+							var="j" itemLabel="#{j.nombreArea}" itemValue="#{j.idArea}" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Cargo:" />
+					<p:selectOneMenu value="#{controllerEmpleado.cargoUs}"
+						style="width:125px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="BODEGERO" itemValue="BODEGERO" />
+						<f:selectItem itemLabel="CAJERO" itemValue="CAJERO" />
+						<f:selectItem itemLabel="MEDICO" itemValue="MEDICO" />
+						<f:selectItem itemLabel="ADMINISTRADOR" itemValue="ADMINISTRADOR" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Contraseña :" />
+					<p:inputText value="#{controllerEmpleado.paswordUs}"
+						required="true" requiredMessage="Debe ingresar una Contraseña"
+						maxlength="20"></p:inputText>
+
+					<h:outputText value="Estado:" />
+					<p:selectOneMenu value="#{controllerEmpleado.activoEmp}"
+						style="width:125px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="ACTIVO" itemValue="ACTIVO" />
+						<f:selectItem itemLabel="INACTIVO" itemValue="INACTIVO" />
+					</p:selectOneMenu>
+				</p:panelGrid>
+				<p:panelGrid>
+
+					<p:commandButton value="Registrar Nuevo Empleado" icon="fa fa-save"
+						update="@form,:form2:tabla1"
+						action="#{controllerEmpleado.actionRegistrarEmpleado()}"></p:commandButton>
+				</p:panelGrid>
+			</h:form>
+		</p:panel>
+	</div>
+	<div>
+		<p></p>
+	</div>
+
+	<p:growl autoUpdate="true"></p:growl>
+	<h:form id="form2">
+
+
+		<p:dataTable paginator="true" rows="10" resizableColumns="true"
+			value="#{controllerEmpleado.listaEmpleados}" var="w" id="tabla1">
+
+			<p:column headerText="Cedula" filterBy="#{w.cedulaEmp}">
+				<h:outputText value="#{w.cedulaEmp}" />
+			</p:column>
+			<p:column headerText="Area" filterBy="#{w.areaTrabajo.nombreArea}">
+				<h:outputText value="#{w.areaTrabajo.nombreArea}" />
+			</p:column>
+			<p:column headerText="Cargo" filterBy="#{w.cargoUs}">
+				<h:outputText value="#{w.cargoUs}" />
+			</p:column>
+			<p:column headerText="Estado" filterBy="#{w.activoEmp}">
+				<h:outputText value="#{w.activoEmp}" />
+			</p:column>
+			<p:column headerText="Eliminar">
+				<p:commandButton icon="fa fa-trash-o" update=":form2:tabla1"
+					actionListener="#{controllerEmpleado.actionListenerEliminarEmpleado(w.cedulaEmp)}"></p:commandButton>
+			</p:column>
+			<p:column headerText="Editar">
+				<p:commandButton icon="fa fa-edit" update="form3"
+					onclick="PF('dialogo1').show();"
+					actionListener="#{controllerEmpleado.actionListenerCargarEmpleado(w)}"></p:commandButton>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+
+	<p:dialog header="Edicitar Venta" widgetVar="dialogo1" id="dialogo1"
+		modal="true">
+		<h:form id="form3">
+			<p:messages autoUpdate="true"></p:messages>
+			<p:panelGrid columns="2">
+				<h:outputText value="Persona:" />
+				<p:outputLabel value="#{controllerEmpleado.cedulaEmp}"
+					style="width:125px">
+				</p:outputLabel>
+
+				<h:outputText value="Area de Trabajo" />
+				<p:selectOneMenu value="#{controllerEmpleado.idArea}"
+					style="width:125px">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItems value="#{controllerEmpleado.listaAreaTrabajo}"
+						var="j" itemLabel="#{j.nombreArea}" itemValue="#{j.idArea}" />
+				</p:selectOneMenu>
+
+				<h:outputText value="Cargo:" />
+				<p:selectOneMenu value="#{controllerEmpleado.cargoUs}"
+					style="width:125px">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItem itemLabel="BODEGERO" itemValue="BODEGERO" />
+					<f:selectItem itemLabel="CAJERO" itemValue="CAJERO" />
+					<f:selectItem itemLabel="MEDICO" itemValue="MEDICO" />
+					<f:selectItem itemLabel="ADMINISTRADOR" itemValue="ADMINISTRADOR" />
+				</p:selectOneMenu>
+
+				<h:outputText value="Contraseña :" />
+				<p:inputText value="#{controllerEmpleado.paswordUs}" required="true"
+					requiredMessage="Debe ingresar una ciudadania." maxlength="20"></p:inputText>
+
+				<h:outputText value="Estado:" />
+				<p:selectOneMenu value="#{controllerEmpleado.activoEmp}"
+					style="width:125px">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItem itemLabel="ACTIVO" itemValue="ACTIVO" />
+					<f:selectItem itemLabel="INACTIVO" itemValue="INACTIVO" />
+				</p:selectOneMenu>
+
+
+				<p:commandButton value="Acutalizar Persona" icon="fa fa-save"
+					update="@form,:form2:tabla1"
+					action="#{controllerEmpleado.actionListenerActualizarEmpleado()}"></p:commandButton>
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+</body>
+</html>

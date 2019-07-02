@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event listener="#{controllerLogin.actionComprobarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
+<h:head></h:head>
+<body>
+	<h:form>
+		<p:commandButton value="ATRAS" icon="fa fa-mail-reply"
+			action="#{controllerLogin.actionReturnAdmin()}" />
+	</h:form>
+	<div align="center">
+		<p:panel header="NUEVA PERSONA" style="width:500px">
+			<p:growl autoUpdate="true"></p:growl>
+			<h:form id="form">
+				<p:panelGrid columns="2">
+					<h:outputText value="Cédula:" />
+					<p:inputText value="#{controllerUsuario.cedulaEmp}" required="true"
+						requiredMessage="Debe ingresar un ID de usuario." maxlength="10"></p:inputText>
+
+					<h:outputText value="Nombres:" />
+					<p:inputText value="#{controllerUsuario.nombresEmp}"
+						required="true" maxlength="20"
+						requiredMessage="Debe ingresar un ID de usuario."></p:inputText>
+
+					<p:outputLabel value="Fecha de Nacimiento:" />
+					<p:calendar id="popup" value="#{controllerUsuario.nacifechaEmp}"
+						maxdate="#{controllerConsulta.fechaCon}" />
+
+					<h:outputText value="Nacionalidad:" />
+					<p:inputText value="#{controllerUsuario.nacionalidadEmp}"
+						required="true" maxlength="10"
+						requiredMessage="Debe ingresar nacionalidad."></p:inputText>
+
+					<h:outputText value="Dirección:" />
+					<p:inputText value="#{controllerUsuario.direccioEmp}"
+						required="true" maxlength="30"
+						marequiredMessage="Debe ingresar una direccion."></p:inputText>
+
+					<h:outputText value="Teléfono" />
+					<p:inputText value="#{controllerUsuario.telefonoEmp}"
+						required="true" maxlength="10"
+						requiredMessage="Debe ingresar un telefono."></p:inputText>
+
+					<h:outputText value="Email:" />
+					<p:inputText value="#{controllerUsuario.emailEmp}" required="true"
+						requiredMessage="Debe ingresar un Email." maxlength="35"></p:inputText>
+
+					<h:outputText value="Estado Civil:" />
+					<p:selectOneMenu value="#{controllerUsuario.estadoEmp}"
+						style="width:125px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="UNION LIBRE" itemValue="UNION LIBRE" />
+						<f:selectItem itemLabel="VIUDO" itemValue="VIUDO" />
+						<f:selectItem itemLabel="DIVORCIADO" itemValue="DIVORCIADO" />
+						<f:selectItem itemLabel="CASADO" itemValue="CASADO" />
+						<f:selectItem itemLabel="SOLTERO" itemValue="SOLTERO" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Tipo de Sangre:" />
+					<p:selectOneMenu value="#{controllerUsuario.tipoEmp}"
+						style="width:125px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="A +" itemValue="A+" />
+						<f:selectItem itemLabel="A -" itemValue="A-" />
+						<f:selectItem itemLabel="B +" itemValue="B+" />
+						<f:selectItem itemLabel="B -" itemValue="B-" />
+						<f:selectItem itemLabel="AB +" itemValue="AB+" />
+						<f:selectItem itemLabel="AB -" itemValue="AB-" />
+						<f:selectItem itemLabel="O +" itemValue="O+" />
+						<f:selectItem itemLabel="O -" itemValue="O-" />
+					</p:selectOneMenu>
+
+					<h:outputText value="Ciudadania:" />
+					<p:inputText value="#{controllerUsuario.ciudadnaciEmp}"
+						maxlength="20"></p:inputText>
+				</p:panelGrid>
+				<p:panelGrid>
+
+					<p:commandButton value="Registrar Nueva Persona" icon="fa fa-save"
+						update="@form,:form2:tabla1"
+						action="#{controllerUsuario.actionRegistrarPersona()}"></p:commandButton>
+				</p:panelGrid>
+			</h:form>
+		</p:panel>
+
+	</div>
+	<p:growl autoUpdate="true"></p:growl>
+	<h:form id="form2">
+
+
+		<p:dataTable paginator="true" rows="10" resizableColumns="true"
+			value="#{controllerUsuario.lista}" var="u" id="tabla1">
+			<p:column headerText="Cedúla" filterBy="#{u.cedulaEmp}">
+				<h:outputText value="#{u.cedulaEmp}" />
+			</p:column>
+			<p:column headerText="Nombres" filterBy="#{u.nombresEmp}">
+				<h:outputText value="#{u.nombresEmp}" />
+			</p:column>
+			<p:column headerText="Fecha de Nacimiento"
+				filterBy="#{u.nacifechaEmp}">
+				<h:outputText value="#{u.nacifechaEmp}" />
+			</p:column>
+			<p:column headerText="Nacionalidad" filterBy="#{u.nacionalidadEmp}">
+				<h:outputText value="#{u.nacionalidadEmp}" />
+			</p:column>
+			<p:column headerText="Direccion" filterBy="#{u.direccioEmp}">
+				<h:outputText value="#{u.direccioEmp}" />
+			</p:column>
+			<p:column headerText="Telefono" filterBy="#{u.telefonoEmp}">
+				<h:outputText value="#{u.telefonoEmp}" />
+			</p:column>
+			<p:column headerText="Email" filterBy="#{u.emailEmp}">
+				<h:outputText value="#{u.emailEmp}" />
+			</p:column>
+			<p:column headerText="Estado Civil" filterBy="#{u.estadoEmp}">
+				<h:outputText value="#{u.estadoEmp}" />
+			</p:column>
+			<p:column headerText="Tipo de Sangre" filterBy="#{u.tipoEmp}">
+				<h:outputText value="#{u.tipoEmp}" />
+			</p:column>
+			<p:column headerText="Ciudadania" filterBy="#{u.ciudadnaciEmp}">
+				<h:outputText value="#{u.ciudadnaciEmp}" />
+			</p:column>
+			<p:column headerText="Eliminar">
+				<p:commandButton icon="fa fa-trash-o" update=":form2:tabla1"
+					actionListener="#{controllerUsuario.actionListenerEliminarPersona(u.cedulaEmp)}"></p:commandButton>
+			</p:column>
+			<p:column headerText="Editar">
+				<p:commandButton icon="fa fa-edit" update="form3"
+					onclick="PF('dialogo1').show();"
+					actionListener="#{controllerUsuario.actionListenerCargarPersona(u)}"></p:commandButton>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+
+	<p:dialog header="Editar Persona" widgetVar="dialogo1" id="dialogo1"
+		modal="true">
+		<h:form id="form3">
+			<p:messages autoUpdate="true"></p:messages>
+			<p:panelGrid columns="2">
+				<h:outputText value="Cédula:" />
+				<h:outputText value="#{controllerUsuario.cedulaEmp}"></h:outputText>
+
+				<h:outputText value="Nombres:" />
+				<p:inputText value="#{controllerUsuario.nombresEmp}" required="true"
+					requiredMessage="Debe ingresar un ID de usuario." maxlength="10"></p:inputText>
+
+				<p:outputLabel value="Fecha de Nacimiento:" />
+				<p:calendar id="popup" value="#{controllerUsuario.nacifechaEmp}" />
+
+				<h:outputText value="Nacionalidad:" />
+				<p:inputText value="#{controllerUsuario.nacionalidadEmp}"
+					required="true" requiredMessage="Debe ingresar nacionalidad."></p:inputText>
+
+				<h:outputText value="Dirección:" />
+				<p:inputText value="#{controllerUsuario.direccioEmp}"
+					required="true" requiredMessage="Debe ingresar una direccion."></p:inputText>
+
+				<h:outputText value="Teléfono" />
+				<p:inputText value="#{controllerUsuario.telefonoEmp}"
+					required="true" requiredMessage="Debe ingresar un telefono."></p:inputText>
+
+				<h:outputText value="Email:" />
+				<p:inputText value="#{controllerUsuario.emailEmp}" required="true"
+					requiredMessage="Debe ingresar un Email."></p:inputText>
+
+				<h:outputText value="Estado Civil:" />
+				<p:selectOneMenu value="#{controllerUsuario.estadoEmp}"
+					style="width:125px">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItem itemLabel="UNION LIBRE" itemValue="UNION LIBRE" />
+					<f:selectItem itemLabel="VIUDO" itemValue="VIUDO" />
+					<f:selectItem itemLabel="DIVORCIADO" itemValue="DIVORCIADO" />
+					<f:selectItem itemLabel="CASADO" itemValue="CASADO" />
+					<f:selectItem itemLabel="SOLTERO" itemValue="SOLTERO" />
+				</p:selectOneMenu>
+
+				<h:outputText value="Tipo de Sangre:" />
+				<p:selectOneMenu value="#{controllerUsuario.tipoEmp}"
+					style="width:125px">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItem itemLabel="A +" itemValue="A+" />
+					<f:selectItem itemLabel="A -" itemValue="A-" />
+					<f:selectItem itemLabel="B +" itemValue="B+" />
+					<f:selectItem itemLabel="B -" itemValue="B-" />
+					<f:selectItem itemLabel="AB +" itemValue="AB+" />
+					<f:selectItem itemLabel="AB -" itemValue="AB-" />
+					<f:selectItem itemLabel="O +" itemValue="O+" />
+					<f:selectItem itemLabel="O -" itemValue="O-" />
+				</p:selectOneMenu>
+
+				<h:outputText value="Ciudadania:" />
+				<p:inputText value="#{controllerUsuario.ciudadnaciEmp}"
+					required="true" requiredMessage="Debe ingresar una ciudadania."></p:inputText>
+
+				<p:commandButton value="Acutalizar Persona" icon="fa fa-save"
+					update="@form,:form2:tabla1"
+					action="#{controllerUsuario.actionListenerActualizarPersona()}"></p:commandButton>
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+</body>
+</html>

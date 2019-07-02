@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#login.xhtml" PATH="/login.xhtml"
+  SHAPE="24,184,50,57" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#login.xhtml:0" NAME="item"
+   PATH="/login.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="index::#admin#index.xhtml" NAME="output"
+    PATH="/admin/index.xhtml" TARGET="rules:#admin#index.xhtml"
+    TITLE="index" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="index::#medico#index.xhtml" NAME="output1"
+    PATH="/medico/index.xhtml" TARGET="rules:#medico#index.xhtml"
+    TITLE="index" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#admin#index.xhtml" PATH="/admin/index.xhtml"
+  SHAPE="128,48,50,89" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#admin#index.xhtml:0" NAME="item"
+   PATH="/admin/index.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="AdministrarPersona::#admin#AdministrarPersona.xhtml"
+    NAME="output" PATH="/admin/AdministrarPersona.xhtml"
+    TARGET="rules:#admin#AdministrarPersona.xhtml"
+    TITLE="AdministrarPersona" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="AdministrarHistorias::#admin#AdministrarHistorias.xhtml"
+    NAME="output1" PATH="/admin/AdministrarHistorias.xhtml"
+    TARGET="rules:#admin#AdministrarHistorias.xhtml"
+    TITLE="AdministrarHistorias" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="AdministrarEmpleado::#admin#AdministrarEmpleado.xhtml"
+    NAME="output2" PATH="/admin/AdministrarEmpleado.xhtml"
+    TARGET="rules:#admin#AdministrarEmpleado.xhtml"
+    TITLE="AdministrarEmpleado" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="AdministrarAreaTrabajo::#admin#AdministrarAreaTrabajo.xhtml"
+    NAME="output3" PATH="/admin/AdministrarAreaTrabajo.xhtml"
+    TARGET="rules:#admin#AdministrarAreaTrabajo.xhtml"
+    TITLE="AdministrarAreaTrabajo" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#medico#index.xhtml"
+  PATH="/medico/index.xhtml" SHAPE="160,312,50,25" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#medico#index.xhtml:0" NAME="item"
+   PATH="/medico/index.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="AdministrarConsulta::#medico#AdministrarConsulta.xhtml"
+    NAME="output" PATH="/medico/AdministrarConsulta.xhtml"
+    TARGET="rules:#medico#AdministrarConsulta.xhtml"
+    TITLE="AdministrarConsulta" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="AdministrarHistorias::#medico#AdministrarHistorias.xhtml"
+    NAME="output1" PATH="/medico/AdministrarHistorias.xhtml"
+    TARGET="rules:#medico#AdministrarHistorias.xhtml"
+    TITLE="AdministrarHistorias" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#admin#AdministrarPersona.xhtml"
+  PATH="/admin/AdministrarPersona.xhtml" SHAPE="344,48,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#admin#AdministrarHistorias.xhtml"
+  PATH="/admin/AdministrarHistorias.xhtml" SHAPE="352,88,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#admin#AdministrarEmpleado.xhtml"
+  PATH="/admin/AdministrarEmpleado.xhtml" SHAPE="352,128,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#admin#AdministrarAreaTrabajo.xhtml"
+  PATH="/admin/AdministrarAreaTrabajo.xhtml" SHAPE="352,168,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#medico#AdministrarConsulta.xhtml"
+  PATH="/medico/AdministrarConsulta.xhtml" SHAPE="354,283,0,0"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#medico#AdministrarHistorias.xhtml"
+  PATH="/medico/AdministrarHistorias.xhtml" SHAPE="349,332,0,0"
+  model-entity="JSFProcessGroup" persistent="true"/>
+</PROCESS>

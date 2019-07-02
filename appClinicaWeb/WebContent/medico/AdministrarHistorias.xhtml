@@ -1,0 +1,469 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event listener="#{controllerLogin.actionComprobarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
+<h:head></h:head>
+<body>
+	<h:form>
+		<p:commandButton value="ATRAS" icon="fa fa-mail-reply"
+			action="#{controllerLogin.actionReturnMedico()}" />
+	</h:form>
+
+	<div align="center">
+		<p:panel header="NUEVA HISTORIA CLINICA" style="width:1000px">
+			<p:growl autoUpdate="true"></p:growl>
+			<h:form id="form">
+				<p:panelGrid columns="2">
+					<h:outputText value="Persona:" />
+					<p:selectOneMenu value="#{controllerHistoria.cedulaEmp}"
+						style="width:200px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItems value="#{controllerHistoria.listaEmpleados}"
+							var="h" itemLabel="#{h.persona.nombresEmp}"
+							itemValue="#{h.persona.cedulaEmp}" />
+					</p:selectOneMenu>
+				</p:panelGrid>
+				<p:panelGrid columns="6">
+					<h:outputText value="Nombre del Padre :" />
+					<p:inputText value="#{controllerHistoria.padreH}" required="true"
+						maxlength="20"></p:inputText>
+
+					<h:outputText value="Vivo" />
+					<p:selectOneMenu value="#{controllerHistoria.fallecidoPH}"
+						style="width:125px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="SI" itemValue="SI" />
+						<f:selectItem itemLabel="NO" itemValue="NO" />
+					</p:selectOneMenu>
+					<h:outputText value="Causas :" />
+					<p:inputText value="#{controllerHistoria.causasPH}" required="true"
+						style="width:188px"></p:inputText>
+
+					<h:outputText value="Nombre de la Madre :" />
+					<p:inputText value="#{controllerHistoria.madreH}" required="true"
+						maxlength="20"></p:inputText>
+
+					<h:outputText value="Vivo" />
+					<p:selectOneMenu value="#{controllerHistoria.fallecidoMH}"
+						style="width:125px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="SI" itemValue="SI" />
+						<f:selectItem itemLabel="NO" itemValue="NO" />
+					</p:selectOneMenu>
+					<h:outputText value="Causas :" />
+					<p:inputText value="#{controllerHistoria.causasMH}" required="true"
+						style="width:188px"></p:inputText>
+				</p:panelGrid>
+
+				<p:panelGrid columns="8">
+					<h:outputText value="N° Hermanos :" />
+					<p:inputText value="#{controllerHistoria.numHH}" required="true"
+						style="width:30px"></p:inputText>
+					<h:outputText value="Cant. Vivos :" />
+					<p:inputText value="#{controllerHistoria.vivoHH}" required="true"
+						style="width:30px"></p:inputText>
+					<h:outputText value="Cant. 	Muertos :" />
+					<p:inputText value="#{controllerHistoria.muerteHH}" required="true"
+						style="width:30px"></p:inputText>
+					<h:outputText value="Causas :" />
+					<p:inputText value="#{controllerHistoria.causasHH}" required="true"
+						style="width:263px"></p:inputText>
+					<h:outputText value="N° Hijos :" />
+					<p:inputText value="#{controllerHistoria.sonH}" required="true"
+						style="width:30px"></p:inputText>
+					<h:outputText value="Cant. Vivos :" />
+					<p:inputText value="#{controllerHistoria.vivoSonH}" required="true"
+						style="width:30px"></p:inputText>
+					<h:outputText value="Cant. 	Muertos :" />
+					<p:inputText value="#{controllerHistoria.muertosSonH}"
+						required="true" style="width:30px"></p:inputText>
+					<h:outputText value="Causas :" />
+					<p:inputText value="#{controllerHistoria.causasSonH}"
+						required="true" style="width:263px"></p:inputText>
+				</p:panelGrid>
+
+				<p:panelGrid columns="4">
+					<h:outputText value="Alcohol:" />
+					<p:selectOneMenu value="#{controllerHistoria.alcoholH}"
+						style="width:125px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="SI" itemValue="SI" />
+						<f:selectItem itemLabel="NO" itemValue="NO" />
+					</p:selectOneMenu>
+					<h:outputText value="Frecuencia:" />
+					<p:inputText value="#{controllerHistoria.frecuenciaAlcH}"
+						required="true" style="width:523px"></p:inputText>
+
+					<h:outputText value="Drogas" />
+					<p:selectOneMenu value="#{controllerHistoria.drogasH}"
+						style="width:125px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="SI" itemValue="SI" />
+						<f:selectItem itemLabel="NO" itemValue="NO" />
+					</p:selectOneMenu>
+					<h:outputText value="Frecuencia:" />
+					<p:inputText value="#{controllerHistoria.frecuenciaDroH}"
+						required="true" style="width:523px"></p:inputText>
+					<h:outputText value="Tabaco" />
+					<p:selectOneMenu value="#{controllerHistoria.tabacoH}"
+						style="width:125px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="SI" itemValue="SI" />
+						<f:selectItem itemLabel="NO" itemValue="NO" />
+					</p:selectOneMenu>
+					<h:outputText value="Frecuencia:" />
+					<p:inputText value="#{controllerHistoria.frecuenciaTabH}"
+						required="true" style="width:523px"></p:inputText>
+
+					<h:outputText value="Inspnio:" />
+					<p:selectOneMenu value="#{controllerHistoria.insomnioH}"
+						style="width:125px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="SI" itemValue="SI" />
+						<f:selectItem itemLabel="NO" itemValue="NO" />
+					</p:selectOneMenu>
+					<h:outputText value="Frecuencia:" />
+					<p:inputText value="#{controllerHistoria.frecuenciaInsomH}"
+						required="true" style="width:523px"></p:inputText>
+				</p:panelGrid>
+
+				<p:panelGrid columns="6">
+					<h:outputText value="Dipsia:" />
+					<p:selectOneMenu value="#{controllerHistoria.dipsiaH}"
+						style="width:125px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="SI" itemValue="SI" />
+						<f:selectItem itemLabel="NO" itemValue="NO" />
+					</p:selectOneMenu>
+					<h:outputText value="Paradipsia:" />
+					<p:selectOneMenu value="#{controllerHistoria.paradipsia}"
+						style="width:125px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="SI" itemValue="SI" />
+						<f:selectItem itemLabel="NO" itemValue="NO" />
+					</p:selectOneMenu>
+					<h:outputText value="Frecuencia:" />
+					<p:inputText value="#{controllerHistoria.frecuenciaParadipsia}"
+						required="true" style="width:262px"></p:inputText>
+				</p:panelGrid>
+
+				<p:panelGrid columns="2">
+					<h:outputText value="Alimentacion :" />
+					<p:inputText value="#{controllerHistoria.alimentacionH}"
+						required="true" style="width:761px;height:60px"></p:inputText>
+					<h:outputText value="Otro :" />
+					<p:inputText value="#{controllerHistoria.otroH}" required="true"
+						style="width:761px;height:60px"></p:inputText>
+				</p:panelGrid>
+				<p:panelGrid>
+					<p:commandButton value="Registrar Nueva Historia" icon="fa fa-save"
+						update="@form,:form2:tabla1"
+						action="#{controllerHistoria.actionRegistrarHistoria()}"></p:commandButton>
+				</p:panelGrid>
+			</h:form>
+		</p:panel>
+	</div>
+	<div>
+		<p></p>
+	</div>
+	<p:growl autoUpdate="true"></p:growl>
+	<h:form id="form2">
+
+
+		<p:dataTable paginator="true" rows="10" resizableColumns="true"
+			value="#{controllerHistoria.listaHistorias}" var="u" id="tabla1">
+
+			<p:column headerText="Usuario" filterBy="#{u.persona.nombresEmp}">
+				<h:outputText value="#{u.persona.cedulaEmp}" />
+			</p:column>
+			<p:column headerText="Usuario" filterBy="#{u.persona.nombresEmp}">
+				<h:outputText value="#{u.persona.nombresEmp}" />
+			</p:column>
+			<p:column headerText="Ver">
+				<p:commandButton icon="fa fa-search" update="form4"
+					onclick="PF('dialogo2').show();"
+					actionListener="#{controllerHistoria.actionListenerCargarHistoria(u)}"></p:commandButton>
+			</p:column>
+
+			<p:column headerText="Eliminar">
+				<p:commandButton icon="fa fa-trash-o" update=":form2:tabla1"
+					actionListener="#{controllerHistoria.actionListenerEliminarHistoria(u.cedulaEmp)}"></p:commandButton>
+			</p:column>
+			<p:column headerText="Editar">
+				<p:commandButton icon="fa fa-edit" update="form3"
+					onclick="PF('dialogo1').show();"
+					actionListener="#{controllerHistoria.actionListenerCargarHistoria(u)}"></p:commandButton>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+
+
+
+
+
+
+
+
+	<p:dialog widgetVar="dialogo2" id="dialogo2" modal="true"
+		showEffect="explode" hideEffect="puff" fitViewport="true">
+		<h:form id="form4">
+			<p:panelGrid columns="2">
+				<h:outputText value="Cedula de Identidad:" style="font-weight:bold" />
+				<p:outputLabel value="#{controllerHistoria.cedulaEmp}">
+				</p:outputLabel>
+			</p:panelGrid>
+			<p:panelGrid columns="6">
+
+				<h:outputText value="Nombre del Padre :" style="font-weight:bold" />
+				<p:outputLabel value="#{controllerHistoria.padreH}"></p:outputLabel>
+
+				<h:outputText value="Vivo:" style="font-weight:bold" />
+				<p:outputLabel value="#{controllerHistoria.fallecidoPH}"></p:outputLabel>
+
+				<h:outputText value="Causas :" style="font-weight:bold" />
+				<p:inputTextarea value="#{controllerHistoria.causasPH}">
+				</p:inputTextarea>
+
+				<h:outputText value="Nombre de la Madre :" style="font-weight:bold" />
+				<p:outputLabel value="#{controllerHistoria.madreH}"></p:outputLabel>
+
+				<h:outputText value="Vivo:" style="font-weight:bold" />
+				<p:outputLabel value="#{controllerHistoria.fallecidoMH}"></p:outputLabel>
+
+				<h:outputText value="Causas :" style="font-weight:bold" />
+				<p:inputTextarea value="#{controllerHistoria.causasMH}"></p:inputTextarea>
+			</p:panelGrid>
+
+			<p:panelGrid columns="8">
+				<h:outputText value="N° Hermanos :" style="font-weight:bold" />
+				<p:outputLabel value="#{controllerHistoria.numHH}"></p:outputLabel>
+
+				<h:outputText value="Cant. Vivos :" style="font-weight:bold" />
+				<p:outputLabel value="#{controllerHistoria.vivoHH}"></p:outputLabel>
+
+				<h:outputText value="Cant. 	Muertos :" style="font-weight:bold" />
+				<p:outputLabel value="#{controllerHistoria.muerteHH}"></p:outputLabel>
+
+				<h:outputText value="Causas :" style="font-weight:bold" />
+				<p:inputTextarea value="#{controllerHistoria.causasHH}"></p:inputTextarea>
+
+				<h:outputText value="N° Hijos :" style="font-weight:bold" />
+				<p:outputLabel value="#{controllerHistoria.sonH}"></p:outputLabel>
+
+				<h:outputText value="Cant. Vivos :" style="font-weight:bold" />
+				<p:outputLabel value="#{controllerHistoria.vivoSonH}"></p:outputLabel>
+
+				<h:outputText value="Cant. 	Muertos :" style="font-weight:bold" />
+				<p:outputLabel value="#{controllerHistoria.muertosSonH}"></p:outputLabel>
+
+				<h:outputText value="Causas :" style="font-weight:bold" />
+				<p:inputTextarea value="#{controllerHistoria.causasSonH}"></p:inputTextarea>
+			</p:panelGrid>
+
+			<p:panelGrid columns="4">
+				<h:outputText value="Alcohol:" style="font-weight:bold" />
+				<p:outputLabel value="#{controllerHistoria.alcoholH}"></p:outputLabel>
+
+				<h:outputText value="Frecuencia:" style="font-weight:bold" />
+				<p:inputTextarea value="#{controllerHistoria.frecuenciaAlcH}"></p:inputTextarea>
+
+				<h:outputText value="Drogas" style="font-weight:bold" />
+				<p:outputLabel value="#{controllerHistoria.drogasH}"></p:outputLabel>
+
+				<h:outputText value="Frecuencia:" style="font-weight:bold" />
+				<p:inputTextarea value="#{controllerHistoria.frecuenciaDroH}"></p:inputTextarea>
+
+				<h:outputText value="Tabaco" style="font-weight:bold" />
+				<p:outputLabel value="#{controllerHistoria.tabacoH}"></p:outputLabel>
+
+				<h:outputText value="Frecuencia:" style="font-weight:bold" />
+				<p:inputTextarea value="#{controllerHistoria.frecuenciaTabH}"></p:inputTextarea>
+
+				<h:outputText value="Inspnio:" style="font-weight:bold" />
+				<p:outputLabel value="#{controllerHistoria.insomnioH}"></p:outputLabel>
+
+				<h:outputText value="Frecuencia:" style="font-weight:bold" />
+				<p:inputTextarea value="#{controllerHistoria.frecuenciaInsomH}"></p:inputTextarea>
+			</p:panelGrid>
+
+			<p:panelGrid columns="6">
+				<h:outputText value="Dipsia:" style="font-weight:bold" />
+				<p:outputLabel value="#{controllerHistoria.dipsiaH}"></p:outputLabel>
+				<h:outputText value="Paradipsia:" />
+				<p:outputLabel value="#{controllerHistoria.paradipsia}"></p:outputLabel>
+				<h:outputText value="Frecuencia:" style="font-weight:bold" />
+				<p:inputTextarea value="#{controllerHistoria.frecuenciaParadipsia}"></p:inputTextarea>
+			</p:panelGrid>
+
+			<p:panelGrid columns="2">
+				<h:outputText value="Alimentacion :" style="font-weight:bold" />
+				<p:inputTextarea value="#{controllerHistoria.alimentacionH}"></p:inputTextarea>
+				<h:outputText value="Otro :" style="font-weight:bold" />
+				<p:inputTextarea value="#{controllerHistoria.otroH}" required="true"></p:inputTextarea>
+			</p:panelGrid>
+		</h:form>
+
+
+	</p:dialog>
+
+	<p:dialog header="Editar Historia" widgetVar="dialogo1" id="dialogo1"
+		modal="true">
+		<h:form id="form3">
+			<p:messages autoUpdate="true"></p:messages>
+			<p:panelGrid columns="2">
+				<h:outputText value="Persona:" />
+				<p:selectOneMenu value="#{controllerHistoria.cedulaEmp}"
+					style="width:200px">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItems value="#{controllerHistoria.listaEmpleados}" var="h"
+						itemLabel="#{h.persona.nombresEmp}"
+						itemValue="#{h.persona.cedulaEmp}" />
+				</p:selectOneMenu>
+			</p:panelGrid>
+			<p:panelGrid columns="6">
+				<h:outputText value="Nombre del Padre :" />
+				<p:inputText value="#{controllerHistoria.padreH}" required="true"></p:inputText>
+
+				<h:outputText value="Vivo" />
+				<p:selectOneMenu value="#{controllerHistoria.fallecidoPH}"
+					style="width:125px">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItem itemLabel="SI" itemValue="SI" />
+					<f:selectItem itemLabel="NO" itemValue="NO" />
+				</p:selectOneMenu>
+				<h:outputText value="Causas :" />
+				<p:inputText value="#{controllerHistoria.causasPH}" required="true"
+					style="width:188px"></p:inputText>
+
+				<h:outputText value="Nombre de la Madre :" />
+				<p:inputText value="#{controllerHistoria.madreH}" required="true"></p:inputText>
+
+				<h:outputText value="Vivo" />
+				<p:selectOneMenu value="#{controllerHistoria.fallecidoMH}"
+					style="width:125px">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItem itemLabel="SI" itemValue="SI" />
+					<f:selectItem itemLabel="NO" itemValue="NO" />
+				</p:selectOneMenu>
+				<h:outputText value="Causas :" />
+				<p:inputText value="#{controllerHistoria.causasMH}" required="true"
+					style="width:188px"></p:inputText>
+			</p:panelGrid>
+
+			<p:panelGrid columns="8">
+				<h:outputText value="N° Hermanos :" />
+				<p:inputText value="#{controllerHistoria.numHH}" required="true"
+					style="width:30px"></p:inputText>
+				<h:outputText value="Cant. Vivos :" />
+				<p:inputText value="#{controllerHistoria.vivoHH}" required="true"
+					style="width:30px"></p:inputText>
+				<h:outputText value="Cant. 	Muertos :" />
+				<p:inputText value="#{controllerHistoria.muerteHH}" required="true"
+					style="width:30px"></p:inputText>
+				<h:outputText value="Causas :" />
+				<p:inputText value="#{controllerHistoria.causasHH}" required="true"
+					style="width:263px"></p:inputText>
+				<h:outputText value="N° Hijos :" />
+				<p:inputText value="#{controllerHistoria.sonH}" required="true"
+					style="width:30px"></p:inputText>
+				<h:outputText value="Cant. Vivos :" />
+				<p:inputText value="#{controllerHistoria.vivoSonH}" required="true"
+					style="width:30px"></p:inputText>
+				<h:outputText value="Cant. 	Muertos :" />
+				<p:inputText value="#{controllerHistoria.muertosSonH}"
+					required="true" style="width:30px"></p:inputText>
+				<h:outputText value="Causas :" />
+				<p:inputText value="#{controllerHistoria.causasSonH}"
+					required="true" style="width:263px"></p:inputText>
+			</p:panelGrid>
+
+			<p:panelGrid columns="4">
+				<h:outputText value="Alcohol:" />
+				<p:selectOneMenu value="#{controllerHistoria.alcoholH}"
+					style="width:125px">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItem itemLabel="SI" itemValue="SI" />
+					<f:selectItem itemLabel="NO" itemValue="NO" />
+				</p:selectOneMenu>
+				<h:outputText value="Frecuencia:" />
+				<p:inputText value="#{controllerHistoria.frecuenciaAlcH}"
+					required="true" style="width:523px"></p:inputText>
+
+				<h:outputText value="Drogas" />
+				<p:selectOneMenu value="#{controllerHistoria.drogasH}"
+					style="width:125px">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItem itemLabel="SI" itemValue="SI" />
+					<f:selectItem itemLabel="NO" itemValue="NO" />
+				</p:selectOneMenu>
+				<h:outputText value="Frecuencia:" />
+				<p:inputText value="#{controllerHistoria.frecuenciaDroH}"
+					required="true" style="width:523px"></p:inputText>
+				<h:outputText value="Tabaco" />
+				<p:selectOneMenu value="#{controllerHistoria.tabacoH}"
+					style="width:125px">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItem itemLabel="SI" itemValue="SI" />
+					<f:selectItem itemLabel="NO" itemValue="NO" />
+				</p:selectOneMenu>
+				<h:outputText value="Frecuencia:" />
+				<p:inputText value="#{controllerHistoria.frecuenciaTabH}"
+					required="true" style="width:523px"></p:inputText>
+
+				<h:outputText value="Inspnio:" />
+				<p:selectOneMenu value="#{controllerHistoria.insomnioH}"
+					style="width:125px">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItem itemLabel="SI" itemValue="SI" />
+					<f:selectItem itemLabel="NO" itemValue="NO" />
+				</p:selectOneMenu>
+				<h:outputText value="Frecuencia:" />
+				<p:inputText value="#{controllerHistoria.frecuenciaInsomH}"
+					required="true" style="width:523px"></p:inputText>
+			</p:panelGrid>
+
+			<p:panelGrid columns="6">
+				<h:outputText value="Dipsia:" />
+				<p:selectOneMenu value="#{controllerHistoria.dipsiaH}"
+					style="width:125px">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItem itemLabel="SI" itemValue="SI" />
+					<f:selectItem itemLabel="NO" itemValue="NO" />
+				</p:selectOneMenu>
+				<h:outputText value="Paradipsia:" />
+				<p:selectOneMenu value="#{controllerHistoria.paradipsia}"
+					style="width:125px">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItem itemLabel="SI" itemValue="SI" />
+					<f:selectItem itemLabel="NO" itemValue="NO" />
+				</p:selectOneMenu>
+				<h:outputText value="Frecuencia:" />
+				<p:inputText value="#{controllerHistoria.frecuenciaParadipsia}"
+					required="true" style="width:262px"></p:inputText>
+			</p:panelGrid>
+
+			<p:panelGrid columns="2">
+				<h:outputText value="Alimentacion :" />
+				<p:inputText value="#{controllerHistoria.alimentacionH}"
+					required="true" style="width:761px;height:60px"></p:inputText>
+				<h:outputText value="Otro :" />
+				<p:inputText value="#{controllerHistoria.otroH}" required="true"
+					style="width:761px;height:60px"></p:inputText>
+			</p:panelGrid>
+			<div align="center">
+				<p:panelGrid>
+					<p:commandButton value="Acutalizar Historia" icon="fa fa-save"
+						update="@form,:form2:tabla1,form4"
+						action="#{controllerHistoria.actionListenerActualizarHistoria()}"></p:commandButton>
+				</p:panelGrid>
+			</div>
+		</h:form>
+	</p:dialog>
+</body>
+</html>
