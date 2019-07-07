@@ -3,9 +3,6 @@ package hospital.controller;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,8 +17,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
 import hospital.model.entities.CabeceraConsulta;
-import hospital.model.entities.Empleado;
 import hospital.model.entities.Persona;
+import hospital.model.manager.ManagerAuditoria;
 import hospital.model.manager.ManagerConsulta;
 import hospital.model.manager.ManagerUsuario;
 import hospital.view.util.JSFUtil;
@@ -49,19 +46,23 @@ public class ControllerConsulta {
 	private String cedulaEmp;
 	private List<Persona> listaPersona;
 	private List<CabeceraConsulta> listaCabecera;
+	private String usuario;
 
 	@EJB
 	private ManagerUsuario managerUsuario;
 
 	@EJB
 	private ManagerConsulta managerConsulta;
+	
+	@EJB
+	private ManagerAuditoria managerAuditoria;
 
 	@PostConstruct
 	private void cargar() {
 		listaPersona = managerUsuario.findAllPersonas();
 		listaCabecera = managerConsulta.findAllConsultas();
 		fechaCon = new Date();
-
+		this.usuario = JSFUtil.getUserConnected();
 	}
 
 	public void actionRegistrarConsulta() {
@@ -70,12 +71,12 @@ public class ControllerConsulta {
 					presionCon, sintomasCon, temperaturaCon);
 			listaCabecera = managerConsulta.findAllConsultas();
 			JSFUtil.crearMensajeInfo("Nueva Consulta registrada.");
-
+			this.managerAuditoria.registrarAccion(this.usuario,"Éxito", "Consulta para "+this.cedulaEmp+" registrada");
 		} catch (Exception e) {
+			this.managerAuditoria.registrarAccion(this.usuario,"Error", "Error al registrar consulta para "+this.cedulaEmp+": "+e.getMessage());
 			JSFUtil.crearMensajeError(e.getMessage());
 			e.printStackTrace();
 		}
-
 	}
 
 	public void actionListenerEliminarConsulta(long idCon) {
@@ -83,7 +84,9 @@ public class ControllerConsulta {
 			managerConsulta.eliminarConsulta(idCon);
 			listaCabecera = managerConsulta.findAllConsultas();
 			JSFUtil.crearMensajeInfo("Consulta " + idCon + " eliminada.");
+			this.managerAuditoria.registrarAccion(this.usuario,"Éxito", "Consulta "+idCon+" eliminada");
 		} catch (Exception e) {
+			this.managerAuditoria.registrarAccion(this.usuario,"Error", "Error al eliminar consulta "+idCon+": "+e.getMessage());
 			JSFUtil.crearMensajeError(e.getMessage());
 			e.printStackTrace();
 		}
@@ -108,7 +111,9 @@ public class ControllerConsulta {
 					presionCon, sintomasCon, temperaturaCon);
 			listaCabecera = managerConsulta.findAllConsultas();
 			JSFUtil.crearMensajeInfo("Actualización correcta.");
+			this.managerAuditoria.registrarAccion(this.usuario,"Éxito", "Consulta "+this.idCon+" actualizada");
 		} catch (Exception e) {
+			this.managerAuditoria.registrarAccion(this.usuario,"Error", "Error al actualizar consulta "+this.idCon+": "+e.getMessage());
 			JSFUtil.crearMensajeError(e.getMessage());
 			e.printStackTrace();
 		}
@@ -124,18 +129,21 @@ public class ControllerConsulta {
 		String ruta = servletContext.getRealPath("medico/ReporteConsultaMedica.jasper");
 		System.out.println(ruta);
 		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-		response.addHeader("Content-disposition", "attachment;filename=Reporte Consulta Medica.pdf");
+		response.addHeader("Content-disposition", "attachment;filename=ReporteConsultaMedica.pdf");
 		response.setContentType("application/pdf");
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/HeleyMed", "postgres", "root");
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Clinica", "postgres", "12345678");
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);
 			System.out.println("reporte generado.");
 			context.responseComplete();
+			
+			this.managerAuditoria.registrarAccion(this.usuario,"Éxito", "Reporte generado");
 		} catch (Exception e) {
+			this.managerAuditoria.registrarAccion(this.usuario,"Error", "Error al generar reporte: "+e.getMessage());
 			JSFUtil.crearMensajeError(e.getMessage());
 			e.printStackTrace();
 		}

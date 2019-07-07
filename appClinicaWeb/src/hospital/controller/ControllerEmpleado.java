@@ -10,8 +10,8 @@ import javax.faces.bean.SessionScoped;
 import hospital.model.entities.AreaTrabajo;
 import hospital.model.entities.Empleado;
 import hospital.model.entities.Persona;
+import hospital.model.manager.ManagerAuditoria;
 import hospital.model.manager.ManagerEmpleado;
-import hospital.model.manager.ManagerUsuario;
 import hospital.view.util.JSFUtil;
 
 /**
@@ -32,15 +32,20 @@ public class ControllerEmpleado {
 	private List<Persona> listaPersona;
 	private List<Empleado> listaEmpleados;
 	private List<AreaTrabajo> listaAreaTrabajo;
+	private String usuario;
 
 	@EJB
 	private ManagerEmpleado managerEmpleado;
+	
+	@EJB
+	private ManagerAuditoria managerAuditoria;
 
 	@PostConstruct
 	private void cargar() {
 		listaEmpleados = managerEmpleado.findAllEmpleados();
 		listaPersona = managerEmpleado.findAllPersonas();
 		listaAreaTrabajo = managerEmpleado.findAllAreas();
+		this.usuario = JSFUtil.getUserConnected();
 	}
 
 	public void actionRegistrarEmpleado() {
@@ -48,12 +53,12 @@ public class ControllerEmpleado {
 			managerEmpleado.insertEmpleado(cedulaEmp, idArea, cargoUs, paswordUs, activoEmp);
 			listaEmpleados = managerEmpleado.findAllEmpleados();
 			JSFUtil.crearMensajeInfo("Nuevo Empleado registrado.");
-
+			this.managerAuditoria.registrarAccion(this.usuario,"Éxito", "Empleado "+this.cedulaEmp+" registrado");
 		} catch (Exception e) {
+			this.managerAuditoria.registrarAccion(this.usuario,"Error", "Error al registrar el empleado "+this.cedulaEmp+": "+e.getMessage());
 			JSFUtil.crearMensajeError(e.getMessage());
 			e.printStackTrace();
 		}
-
 	}
 
 	public void actionListenerEliminarEmpleado(String cedEmp) {
@@ -61,8 +66,10 @@ public class ControllerEmpleado {
 			System.out.println("llego al controller");
 			managerEmpleado.deleteEMPLEADO(cedEmp);
 			listaEmpleados = managerEmpleado.findAllEmpleados();
+			this.managerAuditoria.registrarAccion(this.usuario,"Éxito", "Empleado "+cedEmp+" eliminado");
 			JSFUtil.crearMensajeInfo("Empleado " + cedEmp + " eliminado.");
 		} catch (Exception e) {
+			this.managerAuditoria.registrarAccion(this.usuario,"Error", "Error al eliminar el empleado "+cedEmp+": "+e.getMessage());
 			JSFUtil.crearMensajeError(e.getMessage());
 			e.printStackTrace();
 		}
@@ -81,7 +88,9 @@ public class ControllerEmpleado {
 			managerEmpleado.UpdateEmpleado(cedulaEmp, idArea, cargoUs, paswordUs, activoEmp);
 			listaEmpleados = managerEmpleado.findAllEmpleados();
 			JSFUtil.crearMensajeInfo("Actualización correcta.");
+			this.managerAuditoria.registrarAccion(this.usuario,"Éxito", "Empleado "+this.cedulaEmp+" actualizado");
 		} catch (Exception e) {
+			this.managerAuditoria.registrarAccion(this.usuario,"Error", "Error al actualizar el empleado "+this.cedulaEmp+": "+e.getMessage());
 			JSFUtil.crearMensajeError(e.getMessage());
 			e.printStackTrace();
 		}

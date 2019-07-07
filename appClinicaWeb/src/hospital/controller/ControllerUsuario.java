@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import hospital.model.entities.Persona;
+import hospital.model.manager.ManagerAuditoria;
 import hospital.model.manager.ManagerUsuario;
 import hospital.view.util.JSFUtil;
 
@@ -27,13 +28,18 @@ public class ControllerUsuario {
 	private String telefonoEmp;
 	private String tipoEmp;
 	private List<Persona> lista;
+	private String usuario;
 
 	@EJB
 	private ManagerUsuario managerUsuarios;
+	
+	@EJB
+	private ManagerAuditoria managerAuditoria;
 
 	@PostConstruct
 	private void cargar() {
 		lista = managerUsuarios.findAllPersonas();
+		this.usuario = JSFUtil.getUserConnected();
 	}
 
 	public void actionRegistrarPersona() {
@@ -42,8 +48,9 @@ public class ControllerUsuario {
 					nacionalidadEmp, nombresEmp, telefonoEmp, tipoEmp);
 			lista = managerUsuarios.findAllPersonas();
 			JSFUtil.crearMensajeInfo("Nuevo Usuario registrado.");
-
+			this.managerAuditoria.registrarAccion(this.usuario,"Éxito", "Usuario "+this.cedulaEmp+" registrado");
 		} catch (Exception e) {
+			this.managerAuditoria.registrarAccion(this.usuario,"Error", "Error al registrar el usuario "+this.cedulaEmp+": "+e.getMessage());
 			JSFUtil.crearMensajeError(e.getMessage());
 			e.printStackTrace();
 		}
@@ -55,7 +62,9 @@ public class ControllerUsuario {
 			managerUsuarios.deletePersona(cedulaEmp);
 			lista = managerUsuarios.findAllPersonas();
 			JSFUtil.crearMensajeInfo("Usuario " + cedulaEmp + " eliminado.");
+			this.managerAuditoria.registrarAccion(this.usuario,"Éxito", "Usuario "+this.cedulaEmp+" eliminado");
 		} catch (Exception e) {
+			this.managerAuditoria.registrarAccion(this.usuario,"Error", "Error al eliminar el usuario "+this.cedulaEmp+": "+e.getMessage());
 			JSFUtil.crearMensajeError(e.getMessage());
 			e.printStackTrace();
 		}
@@ -82,7 +91,9 @@ public class ControllerUsuario {
 					nacionalidadEmp, nombresEmp, telefonoEmp, tipoEmp);
 			lista = managerUsuarios.findAllPersonas();
 			JSFUtil.crearMensajeInfo("Actualización correcta.");
+			this.managerAuditoria.registrarAccion(this.usuario,"Éxito", "Usuario "+this.cedulaEmp+" actualizado");
 		} catch (Exception e) {
+			this.managerAuditoria.registrarAccion(this.usuario,"Error", "Error al actualizar el usuario "+this.cedulaEmp+": "+e.getMessage());
 			JSFUtil.crearMensajeError(e.getMessage());
 			e.printStackTrace();
 		}

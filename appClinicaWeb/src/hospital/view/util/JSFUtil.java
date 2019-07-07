@@ -25,5 +25,9 @@ public class JSFUtil {
 		msg.setSummary(mensaje);
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
+	
+	public static String getUserConnected() {
+		return FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario").toString();
+	}
 
 }

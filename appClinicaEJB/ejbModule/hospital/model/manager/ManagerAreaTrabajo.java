@@ -1,21 +1,23 @@
 package hospital.model.manager;
 
-import java.util.Date;
 import java.util.List;
 
-
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import hospital.model.entities.AreaTrabajo;
 import hospital.model.entities.Empleado;
-import hospital.model.entities.Persona;
 
 /**
  * 
- * @author Santiago Lomas Almeida
+ * @author David Cuasapas
  *
  */
 
-@
+@Stateless
 @LocalBean
 public class ManagerAreaTrabajo {
 	@PersistenceContext(unitName = "HeleyMedDS")

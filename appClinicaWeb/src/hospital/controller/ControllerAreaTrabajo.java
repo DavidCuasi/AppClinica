@@ -6,9 +6,11 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import hospital.model.entities.AreaTrabajo;
 import hospital.model.manager.ManagerAreaTrabajo;
+import hospital.model.manager.ManagerAuditoria;
 import hospital.view.util.JSFUtil;
 
 @ManagedBean
@@ -21,13 +23,18 @@ public class ControllerAreaTrabajo {
 	private String gerenciaArea;
 	private String nombreArea;
 	private List<AreaTrabajo> lista;
+	private String usuario;
 
 	@EJB
 	private ManagerAreaTrabajo managerAreaTrabajo;
 
+	@EJB
+	private ManagerAuditoria managerAuditoria;
+
 	@PostConstruct
 	private void cargar() {
 		lista = managerAreaTrabajo.findAllAreas();
+		this.usuario = JSFUtil.getUserConnected();
 	}
 
 	public void actionListenerRegistrarArea() {
@@ -35,8 +42,9 @@ public class ControllerAreaTrabajo {
 			managerAreaTrabajo.insertAreaTrabajo(nombreArea, gerenciaArea, descripcionArea, estadoArea);
 			lista = managerAreaTrabajo.findAllAreas();
 			JSFUtil.crearMensajeInfo("Nueva Area de Trabajo registrada.");
-
+			this.managerAuditoria.registrarAccion(usuario, "Éxito", "Área de trabajo " + nombreArea + " registrada");
 		} catch (Exception e) {
+			this.managerAuditoria.registrarAccion(usuario, "Error", "Error al registrar área: " + e.getMessage());
 			JSFUtil.crearMensajeError(e.getMessage());
 			e.printStackTrace();
 		}
@@ -47,8 +55,10 @@ public class ControllerAreaTrabajo {
 		try {
 			managerAreaTrabajo.deleteAreaTrabajo(idArea);
 			lista = managerAreaTrabajo.findAllAreas();
-			JSFUtil.crearMensajeInfo("Area de trabajo " + idArea + " eliminada.");
+			JSFUtil.crearMensajeInfo("Área de trabajo " + idArea + " eliminada");
+			this.managerAuditoria.registrarAccion(usuario, "Éxito", "Área de trabajo " + idArea + " eliminada");
 		} catch (Exception e) {
+			this.managerAuditoria.registrarAccion(usuario, "Error", "Error al eliminar área de trabajo " + idArea + ": " + e.getMessage());
 			JSFUtil.crearMensajeError(e.getMessage());
 			e.printStackTrace();
 		}
@@ -68,7 +78,10 @@ public class ControllerAreaTrabajo {
 			managerAreaTrabajo.UpdateAreaTrabajo(idArea, nombreArea, gerenciaArea, descripcionArea, estadoArea);
 			lista = managerAreaTrabajo.findAllAreas();
 			JSFUtil.crearMensajeInfo("Actualización correcta.");
+			this.managerAuditoria.registrarAccion(usuario, "Éxito", "Área de trabajo " + idArea + " actualizada");
 		} catch (Exception e) {
+			this.managerAuditoria.registrarAccion(usuario, "Error",
+					"Error al actualizar área de trabajo " + idArea + ": " + e.getMessage());
 			JSFUtil.crearMensajeError(e.getMessage());
 			e.printStackTrace();
 		}

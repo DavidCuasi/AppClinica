@@ -9,6 +9,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import hospital.model.entities.Empleado;
+import hospital.model.manager.ManagerAuditoria;
 import hospital.model.manager.ManagerUsuario;
 import hospital.model.util.ModelUtil;
 import hospital.view.util.JSFUtil;
@@ -24,28 +25,46 @@ public class ControllerLogin {
 
 	@EJB
 	private ManagerUsuario managerUsuarios;
+	
+	@EJB
+	private ManagerAuditoria managerAuditoria;
 
 	public String actionLogin() {
 		try {
 			confirmadoLogin = managerUsuarios.comprobarUsuario(cedulaEmp, paswordUs);
+			
 			JSFUtil.crearMensajeInfo("Login correcto");
 			Empleado e = managerUsuarios.findEmpleadoById(cedulaEmp);
 			Rol = e.getCargoUs();
 			if (Rol.equals("ADMINISTRADOR")) {
+				this.guardarUsuarioSesion();
 				return "admin/index?faces-redirect=true";
 			} else if (Rol.equals("MEDICO")) {
+				this.guardarUsuarioSesion();
 				return "medico/index?faces-redirect=true";
+			} else if (Rol.equals("AUDITOR")) {
+				this.guardarUsuarioSesion();
+				return "auditor/index?faces-redirect=true";
 			} else {
+				this.managerAuditoria.registrarAccion(cedulaEmp, "Alerta", "Usuario sin permisos");
 				JSFUtil.crearMensajeInfo("USUARIO SIN PERMISOS.");
 			}
 		} catch (Exception e) {
 			JSFUtil.crearMensajeError(e.getMessage());
 			e.printStackTrace();
+			this.managerAuditoria.registrarAccion(cedulaEmp, "Error", e.getMessage());
 		}
 		return "";
 	}
+	
+	private void guardarUsuarioSesion() {
+		this.managerAuditoria.registrarAccion(cedulaEmp, "Éxito", "Iniciar Sesión");
+		FacesContext.getCurrentInstance()
+		.getExternalContext().getSessionMap().put("usuario", cedulaEmp);
+	}
 
 	public String actionSalir() {
+		this.managerAuditoria.registrarAccion(cedulaEmp, "Éxito", "Cerrar Sesión");
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "/login?faces-redirect=true";
 	}
@@ -79,9 +98,17 @@ public class ControllerLogin {
 					else
 						return;
 				}
+				
+				if (Rol.equals("AUDITOR")) {
+					if (!path.contains("/auditor/"))
+						ec.redirect(ec.getRequestContextPath() + "/faces/login.xhtml");
+					else
+						return;
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+			this.managerAuditoria.registrarAccion(cedulaEmp, "Error", e.toString());
 		}
 	}
 
@@ -91,6 +118,10 @@ public class ControllerLogin {
 
 	public String actionReturnMedico() {
 		return "/medico/index?faces-redirect=true";
+	}
+	
+	public String actionReturnAuditor() {
+		return "/auditor/index?faces-redirect=true";
 	}
 
 	public String getCedulaEmp() {

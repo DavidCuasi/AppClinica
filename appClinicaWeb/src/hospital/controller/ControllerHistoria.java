@@ -10,6 +10,7 @@ import javax.faces.bean.SessionScoped;
 
 import hospital.model.entities.Empleado;
 import hospital.model.entities.Historia;
+import hospital.model.manager.ManagerAuditoria;
 import hospital.model.manager.ManagerHistoria;
 import hospital.view.util.JSFUtil;
 
@@ -46,14 +47,19 @@ public class ControllerHistoria {
 	private BigDecimal vivoSonH;
 	private List<Historia> listaHistorias;
 	private List<Empleado> listaEmpleados;
+	private String usuario;
 
 	@EJB
 	private ManagerHistoria managerHistoria;
+	
+	@EJB
+	private ManagerAuditoria managerAuditoria;
 
 	@PostConstruct
 	private void cargar() {
 		listaEmpleados = managerHistoria.findAllEmpleados();
 		listaHistorias = managerHistoria.findAllHistorias();
+		this.usuario = JSFUtil.getUserConnected();
 	}
 
 	public void actionRegistrarHistoria() {
@@ -64,12 +70,12 @@ public class ControllerHistoria {
 					padreH, paradipsia, muertosSonH, tabacoH, vivoHH, vivoSonH);
 			listaHistorias = managerHistoria.findAllHistorias();
 			JSFUtil.crearMensajeInfo("Nueva Historia registrada.");
-
+			this.managerAuditoria.registrarAccion(this.usuario,"Éxito", "Historia para "+this.cedulaEmp+" registrada");
 		} catch (Exception e) {
+			this.managerAuditoria.registrarAccion(this.usuario,"Error", "Error al registrar historia para "+this.cedulaEmp+": "+e.getMessage());
 			JSFUtil.crearMensajeError(e.getMessage());
 			e.printStackTrace();
 		}
-
 	}
 
 	public void actionListenerEliminarHistoria(String cedulaEmp) {
@@ -78,7 +84,9 @@ public class ControllerHistoria {
 			managerHistoria.deleteHistoria(cedulaEmp);
 			listaHistorias = managerHistoria.findAllHistorias();
 			JSFUtil.crearMensajeInfo("Historia " + cedulaEmp + " Eliminada.");
+			this.managerAuditoria.registrarAccion(this.usuario,"Éxito", "Historia para "+this.cedulaEmp+" eliminada");
 		} catch (Exception e) {
+			this.managerAuditoria.registrarAccion(this.usuario,"Error", "Error al eliminar historia para "+cedulaEmp+": "+e.getMessage());
 			JSFUtil.crearMensajeError(e.getMessage());
 			e.printStackTrace();
 		}
@@ -123,7 +131,9 @@ public class ControllerHistoria {
 					padreH, paradipsia, muertosSonH, tabacoH, vivoHH, vivoSonH);
 			listaHistorias = managerHistoria.findAllHistorias();
 			JSFUtil.crearMensajeInfo("Actualización correcta.");
+			this.managerAuditoria.registrarAccion(this.usuario,"Éxito", "Historia para "+this.cedulaEmp+" actualizada");
 		} catch (Exception e) {
+			this.managerAuditoria.registrarAccion(this.usuario,"Error", "Error al actualizar historia para "+this.cedulaEmp+": "+e.getMessage());
 			JSFUtil.crearMensajeError(e.getMessage());
 			e.printStackTrace();
 		}
