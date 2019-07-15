@@ -3,35 +3,16 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:pe="http://primefaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<h:body>
 
-<f:metadata>
-	<f:event listener="#{controllerLogin.actionComprobarLogin()}"
-		type="preRenderView"></f:event>
-</f:metadata>
+	<ui:composition template="./../templates/panelTemplate.xhtml">
 
-<h:head>
-</h:head>
-<body style="background-image: url(../images/background.jpg); background-repeat: no-repeat; background-size: 100% 2000%">
-	
-	<div align="right">
-		<h:form>
-			<p:commandButton action="#{controllerLogin.actionSalir()}"
-				icon="fa fa-fw fa-remove" value="Cerrar sesión"></p:commandButton>
-		</h:form>
-	</div>
-	
-	<p:growl autoUpdate="true"></p:growl>
-	<h:form>
-		<p:menu style="border:none;width:300px;position: absolute;top:15%">
-			<p:submenu label="FUNCIONES DEL AUDITOR">
-				<p:menuitem style="font-weight:bold;" />
-				<p:menuitem value="Ver logs"
-					action="logs?faces-redirect=true" icon="fa fa-file"
-					style="font-weight:bold;height:30px;" />
-			</p:submenu>
-		</p:menu>
-	</h:form>
+		<ui:define name="title">
+        Logs
+      </ui:define>
 
-</body>
+	</ui:composition>
+</h:body>
 </html>

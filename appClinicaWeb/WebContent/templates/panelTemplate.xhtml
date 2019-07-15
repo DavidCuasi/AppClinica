@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<f:metadata>
+	<f:event listener="#{controllerLogin.actionComprobarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
+<h:head>
+	<f:facet name="first">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<!-- Meta, title, CSS, favicons, etc. -->
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="shortcut icon" type="image/png"
+			href="#{resource['images/trade-schools-logo.png']}" />
+		<title>Sistema Clínico | <ui:insert name="title">Panel</ui:insert></title>
+	</f:facet>
+
+	<!-- Bootstrap -->
+	<h:outputStylesheet name="vendors/bootstrap/dist/css/bootstrap.min.css" />
+	<!-- Font Awesome -->
+	<h:outputStylesheet
+		name="vendors/font-awesome/css/font-awesome.min.css" />
+	
+	<!-- iCheck -->
+	<h:outputStylesheet name="vendors/iCheck/skins/flat/green.css" />
+
+	<ui:insert name="stylesheets"></ui:insert>
+
+	<h:outputScript name="js/no_back.js"></h:outputScript>
+
+	<!-- Custom Theme Style -->
+	<h:outputStylesheet name="build/css/custom.min.css" />
+
+</h:head>
+
+<h:body class="nav-md" onload="nobackbutton();">
+	<div class="container body">
+		<div class="main_container">
+			<ui:include src="sidebarTemplate.xhtml"></ui:include>
+			<ui:include src="topbar.xhtml"></ui:include>
+
+			<!-- page content -->
+			<div class="right_col" role="main">
+				<p:growl id="growl" life="5000" />
+				<ui:insert name="content">Contenido</ui:insert>
+				<pe:blockUI widgetVar="blockUIWidget">
+					<h:panelGrid columns="2">
+						<h:graphicImage library="images" name="ajax-loader.gif"
+							style="vertical-align: middle;" />
+						<h:outputText value="Cargando" style="white-space: nowrap;" />
+					</h:panelGrid>
+				</pe:blockUI>
+			</div>
+			<!-- /page content -->
+
+			<ui:include src="footerTemplate.xhtml"></ui:include>
+		</div>
+	</div>
+
+	<ui:insert name="jQuery"></ui:insert>
+
+	<!-- Bootstrap -->
+	<h:outputScript name="vendors/bootstrap/dist/js/bootstrap.min.js"></h:outputScript>
+	<!-- FastClick -->
+	<h:outputScript name="vendors/fastclick/lib/fastclick.js"></h:outputScript>
+	
+	<!-- iCheck -->
+	<h:outputScript name="vendors/iCheck/icheck.min.js"></h:outputScript>
+	<ui:insert name="scripts"></ui:insert>
+
+	<!-- Custom Theme Scripts -->
+	<h:outputScript name="build/js/custom.min.js"></h:outputScript>
+
+</h:body>
+
+</html>

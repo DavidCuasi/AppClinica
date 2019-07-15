@@ -16,7 +16,7 @@ import hospital.model.entities.Persona;
 
 /**
  * 
- * @author Santiago Lomas Almeida
+ * @author David Cuasapas
  *
  */
 

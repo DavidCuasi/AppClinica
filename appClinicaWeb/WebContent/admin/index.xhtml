@@ -3,45 +3,17 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pe="http://primefaces.org/ui"
 	xmlns:p="http://primefaces.org/ui">
-
-<f:metadata>
-	<f:event listener="#{controllerLogin.actionComprobarLogin()}"
-		type="preRenderView"></f:event>
-</f:metadata>
-
 <h:head></h:head>
-<body
-	style="background-image: url(../images/background.jpg); background-repeat: no-repeat; background-size: 100% 2000%">
+<h:body>
 
-	<div align="right">
-		<h:form>
-			<p:commandButton action="#{controllerLogin.actionSalir()}"
-				icon="fa fa-fw fa-remove" value="Cerrar sesión"></p:commandButton>
-		</h:form>
-	</div>
-	<div>
-		<p:panel
-			style="position: absolute; top: 25%; left: 40%;width:305px;height:280px;background-image: url(../images/clinicaCare.png);background-repeat: no-repeat;border: none;background-size:80% 80%;background-position: center;background-color:transparent">
-		</p:panel>
-	</div>
-	<p:growl autoUpdate="true"></p:growl>
-	<h:form>
-		<p:menu style="border:none;width:300px;position: absolute;top:15%">
-			<p:submenu label="FUNCIONES DEL ADMINISTRADOR">
-				<p:menuitem style="font-weight:bold;" />
-				<p:menuitem value="Administrar Persona"
-					action="AdministrarPersona?faces-redirect=true" icon="fa fa-user"
-					style="font-weight:bold;height:30px;" />
-				<p:menuitem value="Administrar Empleado"
-					action="AdministrarEmpleado?faces-redirect=true"
-					icon="fa fa-user-md" style="font-weight:bold;height:30px" />
-				<p:menuitem value="Administrar Area De Trabajo"
-					action="AdministrarAreaTrabajo?faces-redirect=true"
-					icon="fa fa-building" style="font-weight:bold;height:30px" />
-			</p:submenu>
+	<ui:composition template="./../templates/panelTemplate.xhtml">
 
-		</p:menu>
-	</h:form>
-</body>
+		<ui:define name="title">
+        Administrador
+      </ui:define>
+
+	</ui:composition>
+</h:body>
 </html>

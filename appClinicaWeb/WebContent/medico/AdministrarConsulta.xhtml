@@ -4,195 +4,191 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-<f:metadata>
-	<f:event listener="#{controllerLogin.actionComprobarLogin()}"
-		type="preRenderView"></f:event>
-</f:metadata>
-<h:head></h:head>
-<body>
-	<h:form>
-		<p:commandButton value="ATRAS" icon="fa fa-mail-reply"
-			action="#{controllerLogin.actionReturnMedico()}" />
-	</h:form>
-	<div align="center">
-		<p:panel header="NUEVA CONSULTA" style="width:500px">
+<h:body>
+	<ui:composition template="./../templates/panelTemplate.xhtml">
+		<ui:define name="content">
+			<div align="center">
+				<p:panel header="NUEVA CONSULTA" style="width:500px">
+					<p:growl autoUpdate="true"></p:growl>
+					<h:form id="form">
+						<p:panelGrid columns="2">
+							<h:outputText value="Nombre del Paciente:" />
+							<p:selectOneMenu value="#{controllerConsulta.cedulaEmp}"
+								style="width:200px">
+								<f:selectItem itemLabel="Select One" itemValue="" />
+								<f:selectItems value="#{controllerConsulta.listaPersona}"
+									var="h" itemLabel="#{h.nombresEmp}" itemValue="#{h.cedulaEmp}" />
+							</p:selectOneMenu>
+
+							<h:outputText value="Indicaciones:" />
+							<p:inputTextarea value="#{controllerConsulta.indicacionesCon}"></p:inputTextarea>
+
+							<h:outputText value="Motivo:" />
+							<p:inputTextarea value="#{controllerConsulta.motivoCon}"></p:inputTextarea>
+
+							<h:outputText value="Fecha de Consulta:" />
+							<h:outputText value="#{controllerConsulta.fechaCon}" />
+
+							<h:outputText value="Presion:" />
+							<p:inputText value="#{controllerConsulta.presionCon}"></p:inputText>
+
+							<h:outputText value="Peso:" />
+							<p:inputText value="#{controllerConsulta.pesoCon}"></p:inputText>
+
+							<h:outputText value="Temperatura:" />
+							<p:inputText value="#{controllerConsulta.temperaturaCon}"></p:inputText>
+
+							<h:outputText value="Sintomas:" />
+							<p:inputTextarea value="#{controllerConsulta.sintomasCon}"
+								required="true"></p:inputTextarea>
+
+							<h:outputText value="Observaciones:" />
+							<p:inputTextarea value="#{controllerConsulta.observacionesCon}"></p:inputTextarea>
+						</p:panelGrid>
+						<p:panelGrid>
+							<p:commandButton value="Registrar Nueva Consulta"
+								icon="fa fa-save" update="@form,:form2:tabla1"
+								action="#{controllerConsulta.actionRegistrarConsulta()}"></p:commandButton>
+						</p:panelGrid>
+					</h:form>
+				</p:panel>
+			</div>
+			<div>
+				<p></p>
+			</div>
+
 			<p:growl autoUpdate="true"></p:growl>
-			<h:form id="form">
-				<p:panelGrid columns="2">
-					<h:outputText value="Nombre del Paciente:" />
-					<p:selectOneMenu value="#{controllerConsulta.cedulaEmp}"
-						style="width:200px">
-						<f:selectItem itemLabel="Select One" itemValue="" />
-						<f:selectItems value="#{controllerConsulta.listaPersona}" var="h"
-							itemLabel="#{h.nombresEmp}" itemValue="#{h.cedulaEmp}" />
-					</p:selectOneMenu>
+			<h:form id="form2">
 
-					<h:outputText value="Indicaciones:" />
-					<p:inputTextarea value="#{controllerConsulta.indicacionesCon}"></p:inputTextarea>
+				<p:dataTable paginator="true" rows="10" resizableColumns="true"
+					value="#{controllerConsulta.listaCabecera}" var="u" id="tabla1">
 
-					<h:outputText value="Motivo:" />
-					<p:inputTextarea value="#{controllerConsulta.motivoCon}"></p:inputTextarea>
+					<p:column headerText="ID" filterBy="#{u.idCon}">
+						<h:outputText value="#{u.idCon}" />
+					</p:column>
+					<p:column headerText="ID Paciente"
+						filterBy="#{u.persona.cedulaEmp}">
+						<h:outputText value="#{u.persona.cedulaEmp}" />
+					</p:column>
+					<p:column headerText="Paciente" filterBy="#{u.persona.nombresEmp}">
+						<h:outputText value="#{u.persona.nombresEmp}" />
+					</p:column>
+					<p:column headerText="Fecha" filterBy="#{u.fechaCon}">
+						<h:outputText value="#{u.fechaCon}" />
+					</p:column>
+					<p:column headerText="Ver">
+						<p:commandButton icon="fa fa-search" update="form4"
+							onclick="PF('dialogo2').show();"
+							actionListener="#{controllerConsulta.actionListenerCargarConsulta(u)}"></p:commandButton>
+					</p:column>
+					<p:column headerText="Eliminar">
+						<p:commandButton icon="fa fa-trash-o" update=":form2:tabla1"
+							actionListener="#{controllerConsulta.actionListenerEliminarConsulta(u.idCon)}"></p:commandButton>
+					</p:column>
+					<p:column headerText="Editar">
+						<p:commandButton icon="fa fa-edit" update="form3"
+							onclick="PF('dialogo1').show();"
+							actionListener="#{controllerConsulta.actionListenerCargarConsulta(u)}"></p:commandButton>
+					</p:column>
 
-					<h:outputText value="Fecha de Consulta:" />
-					<h:outputText value="#{controllerConsulta.fechaCon}" />
-
-					<h:outputText value="Presion:" />
-					<p:inputText value="#{controllerConsulta.presionCon}"></p:inputText>
-
-					<h:outputText value="Peso:" />
-					<p:inputText value="#{controllerConsulta.pesoCon}"></p:inputText>
-
-					<h:outputText value="Temperatura:" />
-					<p:inputText value="#{controllerConsulta.temperaturaCon}"></p:inputText>
-
-					<h:outputText value="Sintomas:" />
-					<p:inputTextarea value="#{controllerConsulta.sintomasCon}"
-						required="true"></p:inputTextarea>
-
-					<h:outputText value="Observaciones:" />
-					<p:inputTextarea value="#{controllerConsulta.observacionesCon}"></p:inputTextarea>
-				</p:panelGrid>
-				<p:panelGrid>
-					<p:commandButton value="Registrar Nueva Consulta" icon="fa fa-save"
-						update="@form,:form2:tabla1"
-						action="#{controllerConsulta.actionRegistrarConsulta()}"></p:commandButton>
-				</p:panelGrid>
+					<p:column headerText="Reporte">
+						<p:commandButton icon="fa fa-file-pdf-o" ajax="false"
+							action="#{controllerConsulta.actionReporte(u.idCon)}"></p:commandButton>
+					</p:column>
+				</p:dataTable>
 			</h:form>
-		</p:panel>
-	</div>
-	<div>
-		<p></p>
-	</div>
 
-	<p:growl autoUpdate="true"></p:growl>
-	<h:form id="form2">
+			<p:dialog widgetVar="dialogo2" id="dialogo2" modal="true"
+				showEffect="explode" hideEffect="puff" fitViewport="true">
+				<h:form id="form4">
 
-		<p:dataTable paginator="true" rows="10" resizableColumns="true"
-			value="#{controllerConsulta.listaCabecera}" var="u" id="tabla1">
+					<p:panelGrid columns="2">
+						<h:outputText value="Paciente" />
+						<p:outputLabel value="#{controllerConsulta.cedulaEmp}">
+						</p:outputLabel>
 
-			<p:column headerText="ID" filterBy="#{u.idCon}">
-				<h:outputText value="#{u.idCon}" />
-			</p:column>
-			<p:column headerText="ID Paciente" filterBy="#{u.persona.cedulaEmp}">
-				<h:outputText value="#{u.persona.cedulaEmp}" />
-			</p:column>
-			<p:column headerText="Paciente" filterBy="#{u.persona.nombresEmp}">
-				<h:outputText value="#{u.persona.nombresEmp}" />
-			</p:column>
-			<p:column headerText="Fecha" filterBy="#{u.fechaCon}">
-				<h:outputText value="#{u.fechaCon}" />
-			</p:column>
-			<p:column headerText="Ver">
-				<p:commandButton icon="fa fa-search" update="form4"
-					onclick="PF('dialogo2').show();"
-					actionListener="#{controllerConsulta.actionListenerCargarConsulta(u)}"></p:commandButton>
-			</p:column>
-			<p:column headerText="Eliminar">
-				<p:commandButton icon="fa fa-trash-o" update=":form2:tabla1"
-					actionListener="#{controllerConsulta.actionListenerEliminarConsulta(u.idCon)}"></p:commandButton>
-			</p:column>
-			<p:column headerText="Editar">
-				<p:commandButton icon="fa fa-edit" update="form3"
-					onclick="PF('dialogo1').show();"
-					actionListener="#{controllerConsulta.actionListenerCargarConsulta(u)}"></p:commandButton>
-			</p:column>
+						<h:outputText value="Indicaciones" />
+						<p:inputTextarea value="#{controllerConsulta.indicacionesCon}"></p:inputTextarea>
 
-			<p:column headerText="Reporte">
-				<p:commandButton icon="fa fa-file-pdf-o" ajax="false"
-					action="#{controllerConsulta.actionReporte(u.idCon)}"></p:commandButton>
-			</p:column>
-		</p:dataTable>
-	</h:form>
+						<h:outputText value="Motivo" />
+						<p:inputTextarea value="#{controllerConsulta.motivoCon}"></p:inputTextarea>
 
-	<p:dialog widgetVar="dialogo2" id="dialogo2" modal="true"
-		showEffect="explode" hideEffect="puff" fitViewport="true">
-		<h:form id="form4">
+						<h:outputText value="Fecha de Consulta" />
+						<h:outputText value="#{controllerConsulta.fechaCon}" />
 
-			<p:panelGrid columns="2">
-				<h:outputText value="Paciente" />
-				<p:outputLabel value="#{controllerConsulta.cedulaEmp}">
-				</p:outputLabel>
+						<h:outputText value="Presion:" />
+						<h:outputText value="#{controllerConsulta.presionCon}"></h:outputText>
 
-				<h:outputText value="Indicaciones" />
-				<p:inputTextarea value="#{controllerConsulta.indicacionesCon}"></p:inputTextarea>
+						<h:outputText value="Peso:" />
+						<h:outputText value="#{controllerConsulta.pesoCon}"></h:outputText>
 
-				<h:outputText value="Motivo" />
-				<p:inputTextarea value="#{controllerConsulta.motivoCon}"></p:inputTextarea>
+						<h:outputText value="Temperatura:" />
+						<h:outputText value="#{controllerConsulta.temperaturaCon}"></h:outputText>
 
-				<h:outputText value="Fecha de Consulta" />
-				<h:outputText value="#{controllerConsulta.fechaCon}" />
+						<h:outputText value="Sintomas:" />
+						<p:inputTextarea value="#{controllerConsulta.sintomasCon}"></p:inputTextarea>
 
-				<h:outputText value="Presion:" />
-				<h:outputText value="#{controllerConsulta.presionCon}"></h:outputText>
-
-				<h:outputText value="Peso:" />
-				<h:outputText value="#{controllerConsulta.pesoCon}"></h:outputText>
-
-				<h:outputText value="Temperatura:" />
-				<h:outputText value="#{controllerConsulta.temperaturaCon}"></h:outputText>
-
-				<h:outputText value="Sintomas:" />
-				<p:inputTextarea value="#{controllerConsulta.sintomasCon}"></p:inputTextarea>
-
-				<h:outputText value="Observaciones" />
-				<p:inputTextarea value="#{controllerConsulta.observacionesCon}"></p:inputTextarea>
-			</p:panelGrid>
-		</h:form>
-	</p:dialog>
+						<h:outputText value="Observaciones" />
+						<p:inputTextarea value="#{controllerConsulta.observacionesCon}"></p:inputTextarea>
+					</p:panelGrid>
+				</h:form>
+			</p:dialog>
 
 
 
 
 
 
-	<p:dialog header="Editar Consulta" widgetVar="dialogo1" id="dialogo1"
-		modal="true">
-		<h:form id="form3">
-			<p:messages autoUpdate="true"></p:messages>
-			<p:panelGrid columns="2">
-				<h:outputText value="Nombre del Paciente" />
-				<p:selectOneMenu value="#{controllerConsulta.cedulaEmp}"
-					style="width:200px">
-					<f:selectItem itemLabel="Select One" itemValue="" />
-					<f:selectItems value="#{controllerConsulta.listaPersona}" var="h"
-						itemLabel="#{h.nombresEmp}" itemValue="#{h.cedulaEmp}" />
-				</p:selectOneMenu>
+			<p:dialog header="Editar Consulta" widgetVar="dialogo1" id="dialogo1"
+				modal="true">
+				<h:form id="form3">
+					<p:messages autoUpdate="true"></p:messages>
+					<p:panelGrid columns="2">
+						<h:outputText value="Nombre del Paciente" />
+						<p:selectOneMenu value="#{controllerConsulta.cedulaEmp}"
+							style="width:200px">
+							<f:selectItem itemLabel="Select One" itemValue="" />
+							<f:selectItems value="#{controllerConsulta.listaPersona}" var="h"
+								itemLabel="#{h.nombresEmp}" itemValue="#{h.cedulaEmp}" />
+						</p:selectOneMenu>
 
-				<h:outputText value="Indicaciones" />
-				<p:inputTextarea value="#{controllerConsulta.indicacionesCon}"
-					required="true"></p:inputTextarea>
+						<h:outputText value="Indicaciones" />
+						<p:inputTextarea value="#{controllerConsulta.indicacionesCon}"
+							required="true"></p:inputTextarea>
 
-				<h:outputText value="Motivo" />
-				<p:inputTextarea value="#{controllerConsulta.motivoCon}"
-					required="true"></p:inputTextarea>
+						<h:outputText value="Motivo" />
+						<p:inputTextarea value="#{controllerConsulta.motivoCon}"
+							required="true"></p:inputTextarea>
 
-				<h:outputText value="Fecha de Consulta" />
-				<h:outputText value="#{controllerConsulta.fechaCon}" />
+						<h:outputText value="Fecha de Consulta" />
+						<h:outputText value="#{controllerConsulta.fechaCon}" />
 
-				<h:outputText value="Presion:" />
-				<p:inputText value="#{controllerConsulta.presionCon}"
-					required="true"></p:inputText>
+						<h:outputText value="Presion:" />
+						<p:inputText value="#{controllerConsulta.presionCon}"
+							required="true"></p:inputText>
 
-				<h:outputText value="Peso:" />
-				<p:inputText value="#{controllerConsulta.pesoCon}" required="true"></p:inputText>
+						<h:outputText value="Peso:" />
+						<p:inputText value="#{controllerConsulta.pesoCon}" required="true"></p:inputText>
 
-				<h:outputText value="Temperatura:" />
-				<p:inputText value="#{controllerConsulta.temperaturaCon}"
-					required="true"></p:inputText>
+						<h:outputText value="Temperatura:" />
+						<p:inputText value="#{controllerConsulta.temperaturaCon}"
+							required="true"></p:inputText>
 
-				<h:outputText value="Sintomas:" />
-				<p:inputTextarea value="#{controllerConsulta.sintomasCon}"
-					required="true"></p:inputTextarea>
+						<h:outputText value="Sintomas:" />
+						<p:inputTextarea value="#{controllerConsulta.sintomasCon}"
+							required="true"></p:inputTextarea>
 
-				<h:outputText value="Observaciones" />
-				<p:inputTextarea value="#{controllerConsulta.observacionesCon}"
-					required="true"></p:inputTextarea>
+						<h:outputText value="Observaciones" />
+						<p:inputTextarea value="#{controllerConsulta.observacionesCon}"
+							required="true"></p:inputTextarea>
 
-				<p:commandButton value="Acutalizar Consulta" icon="fa fa-save"
-					update="@form,:form2:tabla1"
-					action="#{controllerConsulta.actionListenerActualizarConsulta()}"></p:commandButton>
-			</p:panelGrid>
-		</h:form>
-	</p:dialog>
-</body>
+						<p:commandButton value="Acutalizar Consulta" icon="fa fa-save"
+							update="@form,:form2:tabla1"
+							action="#{controllerConsulta.actionListenerActualizarConsulta()}"></p:commandButton>
+					</p:panelGrid>
+				</h:form>
+			</p:dialog>
+		</ui:define>
+	</ui:composition>
+</h:body>
 </html>

@@ -4,51 +4,47 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="./../templates/panelTemplate.xhtml">
+		<ui:define name="content">
 
-<f:metadata>
-	<f:event listener="#{controllerLogin.actionComprobarLogin()}"
-		type="preRenderView"></f:event>
-</f:metadata>
+			<p:growl autoUpdate="true"></p:growl>
 
-<h:head>
-	<title>Logs</title>
-</h:head>
+			<h:form>
+				<p:dataTable paginator="true" rows="10" resizableColumns="true"
+					value="#{controllerLog.lista}" var="u" id="tabla1"
+					widgetVar="logsTable">
+					<p:column headerText="Usuario" filterBy="#{u.usuario}"
+						filterMatchMode="contains">
+						<h:outputText value="#{u.usuario}" />
+					</p:column>
 
-<body>
-	<h:form>
-		<p:commandButton value="ATRAS" icon="fa fa-mail-reply"
-			action="#{controllerLogin.actionReturnAuditor()}" />
-	</h:form>
-	
-	<p:growl autoUpdate="true"></p:growl>
-	
-	<h:form>
-	<p:dataTable paginator="true" rows="10" resizableColumns="true"
-			value="#{controllerLog.lista}" var="u" id="tabla1" widgetVar="logsTable">
-			<p:column headerText="Usuario" filterBy="#{u.usuario}" filterMatchMode="contains">
-				<h:outputText value="#{u.usuario}" />
-			</p:column>
+					<p:column headerText="Fecha de Operación"
+						filterMatchMode="contains" filterBy="#{u.fechaOperacion}">
+						<h:outputText value="#{u.fechaOperacion}" />
+					</p:column>
 
-			<p:column headerText="Fecha de Operación" filterMatchMode="contains"
-				filterBy="#{u.fechaOperacion}">
-				<h:outputText value="#{u.fechaOperacion}" />
-			</p:column>
+					<p:column headerText="Tipo" filterBy="#{u.tipoMensaje}"
+						filterMatchMode="exact">
+						<f:facet name="filter">
+							<p:selectOneMenu onchange="PF('logsTable').filter()"
+								styleClass="custom-filter">
+								<f:selectItem itemLabel="Seleccionar" itemValue="#{null}"
+									noSelectionOption="true" />
+								<f:selectItem itemLabel="Éxito" itemValue="Éxito" />
+								<f:selectItem itemLabel="Error" itemValue="Error" />
+							</p:selectOneMenu>
+						</f:facet>
+						<h:outputText value="#{u.tipoMensaje}" />
+					</p:column>
 
-			<p:column headerText="Tipo" filterBy="#{u.tipoMensaje}" filterMatchMode="exact">
-				 <f:facet name="filter">
-	                <p:selectOneMenu onchange="PF('logsTable').filter()" styleClass="custom-filter">
-	                    <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" noSelectionOption="true" />
-	                    <f:selectItem itemLabel="Éxito" itemValue="Éxito"/>
-	                    <f:selectItem itemLabel="Error" itemValue="Error"/>
-	                </p:selectOneMenu>
-	            </f:facet>
-				<h:outputText value="#{u.tipoMensaje}" />
-			</p:column>
-			
-			<p:column headerText="Mensaje" filterBy="#{u.mensaje}" filterMatchMode="contains">
-				<h:outputText value="#{u.mensaje}" />
-			</p:column>
-		</p:dataTable>
-		</h:form>
-</body>
+					<p:column headerText="Mensaje" filterBy="#{u.mensaje}"
+						filterMatchMode="contains">
+						<h:outputText value="#{u.mensaje}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
 </html>

@@ -22,7 +22,9 @@ public class ControllerLogin {
 	private String paswordUs;
 	private String Rol;
 	private boolean confirmadoLogin;
-
+	private String usuario;
+	
+	
 	@EJB
 	private ManagerUsuario managerUsuarios;
 	
@@ -84,6 +86,7 @@ public class ControllerLogin {
 				ec.redirect(ec.getRequestContextPath() + "/faces/login.xhtml");
 			} else {
 				Empleado e = managerUsuarios.findEmpleadoById(cedulaEmp);
+				this.usuario = e.getPersona().getNombresEmp();
 				Rol = e.getCargoUs();
 				if (Rol.equals("ADMINISTRADOR")) {
 					if (!path.contains("/admin/"))
@@ -152,4 +155,11 @@ public class ControllerLogin {
 		return confirmadoLogin;
 	}
 
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
 }
