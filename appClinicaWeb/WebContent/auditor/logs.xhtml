@@ -7,11 +7,13 @@
 <h:body>
 	<ui:composition template="./../templates/panelTemplate.xhtml">
 		<ui:define name="content">
-
+			<div align="center">
+				<h3>Acciones de los usuarios</h3>
+			</div>
 			<p:growl autoUpdate="true"></p:growl>
 
 			<h:form>
-				<p:dataTable paginator="true" rows="10" resizableColumns="true"
+				<p:dataTable paginator="true" rows="15" resizableColumns="true"
 					value="#{controllerLog.lista}" var="u" id="tabla1"
 					widgetVar="logsTable">
 					<p:column headerText="Usuario" filterBy="#{u.usuario}"

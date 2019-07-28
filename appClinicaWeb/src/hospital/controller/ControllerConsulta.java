@@ -134,7 +134,7 @@ public class ControllerConsulta {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Clinica", "postgres", "12345678");
+			connection = DriverManager.getConnection("jdbc:postgresql://186.71.221.50:5432/Clinica", "postgres", "dba.1234");
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);
