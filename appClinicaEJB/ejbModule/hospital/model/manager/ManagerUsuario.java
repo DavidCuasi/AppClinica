@@ -168,5 +168,4 @@ public class ManagerUsuario {
 		p.setCiudadnaciEmp(ciudadnaciEmp);
 		em.merge(p);
 	}
-
 }

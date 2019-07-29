@@ -39,11 +39,6 @@
 									itemValue="ADMINISTRADOR" />
 							</p:selectOneMenu>
 
-							<h:outputText value="Contraseña :" />
-							<p:inputText value="#{controllerEmpleado.paswordUs}"
-								required="true" requiredMessage="Debe ingresar una Contraseña"
-								maxlength="20"></p:inputText>
-
 							<h:outputText value="Estado:" />
 							<p:selectOneMenu value="#{controllerEmpleado.activoEmp}"
 								style="width:125px">
@@ -96,7 +91,7 @@
 				</p:dataTable>
 			</h:form>
 
-			<p:dialog header="Edicitar Venta" widgetVar="dialogo1" id="dialogo1"
+			<p:dialog header="Actualizar Persona" widgetVar="dialogo1" id="dialogo1"
 				modal="true">
 				<h:form id="form3">
 					<p:messages autoUpdate="true"></p:messages>
@@ -124,11 +119,6 @@
 							<f:selectItem itemLabel="ADMINISTRADOR" itemValue="ADMINISTRADOR" />
 						</p:selectOneMenu>
 
-						<h:outputText value="Contraseña :" />
-						<p:inputText value="#{controllerEmpleado.paswordUs}"
-							required="true" requiredMessage="Debe ingresar una ciudadania."
-							maxlength="20"></p:inputText>
-
 						<h:outputText value="Estado:" />
 						<p:selectOneMenu value="#{controllerEmpleado.activoEmp}"
 							style="width:125px">
@@ -137,7 +127,7 @@
 							<f:selectItem itemLabel="INACTIVO" itemValue="INACTIVO" />
 						</p:selectOneMenu>
 
-						<p:commandButton value="Acutalizar Persona" icon="fa fa-save"
+						<p:commandButton value="Actualizar" icon="fa fa-save"
 							update="@form,:form2:tabla1"
 							action="#{controllerEmpleado.actionListenerActualizarEmpleado()}"></p:commandButton>
 					</p:panelGrid>

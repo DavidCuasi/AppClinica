@@ -8,11 +8,17 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import hospital.model.entities.Empleado;
+import hospital.model.entities.Persona;
 import hospital.model.manager.ManagerAuditoria;
+import hospital.model.manager.ManagerEmpleado;
 import hospital.model.manager.ManagerUsuario;
 import hospital.model.util.ModelUtil;
+import hospital.view.util.EmailSender;
 import hospital.view.util.JSFUtil;
+import hospital.view.util.StringUtil;
 
 @ManagedBean
 @SessionScoped
@@ -23,18 +29,21 @@ public class ControllerLogin {
 	private String Rol;
 	private boolean confirmadoLogin;
 	private String usuario;
-	
-	
+
+	@EJB
+	private ManagerEmpleado managerEmpleados;
+
 	@EJB
 	private ManagerUsuario managerUsuarios;
-	
+
 	@EJB
 	private ManagerAuditoria managerAuditoria;
 
 	public String actionLogin() {
 		try {
-			confirmadoLogin = managerUsuarios.comprobarUsuario(cedulaEmp, paswordUs);
-			
+			String claveEncriptada = DigestUtils.sha256Hex(this.paswordUs);
+			confirmadoLogin = managerUsuarios.comprobarUsuario(this.cedulaEmp, claveEncriptada);
+
 			JSFUtil.crearMensajeInfo("Login correcto");
 			Empleado e = managerUsuarios.findEmpleadoById(cedulaEmp);
 			Rol = e.getCargoUs();
@@ -58,11 +67,39 @@ public class ControllerLogin {
 		}
 		return "";
 	}
-	
+
+	public void actionListenerRecoverPassword() {
+		Empleado e = managerUsuarios.findEmpleadoById(cedulaEmp);
+		if (e == null) {
+			JSFUtil.crearMensajeError("No se encontró el usuario " + this.cedulaEmp);
+		} else {
+			Persona per = e.getPersona();
+
+			String correo = per.getEmailEmp();
+			String nuevaClave = StringUtil.generarClave();
+			String claveEncriptada = DigestUtils.sha256Hex(nuevaClave);
+
+			String mensaje = "<p>Estimad@ " + per.getNombresEmp() + "</p><p>Su nueva contraseña es la siguiente: <b>"
+					+ nuevaClave + "</b> </p>";
+
+			try {
+				EmailSender.enviarMail(correo, "Reseteo de contraseña", mensaje);
+
+				e.setPaswordUs(claveEncriptada);
+				this.managerEmpleados.UpdateEmpleado(e);
+
+				JSFUtil.crearMensajeInfo("Se ha enviado la nueva contraseña al correo " + correo);
+				this.managerAuditoria.registrarAccion(cedulaEmp, "Éxito", "Reseteo de contraseña");
+			} catch (Exception ex) {
+				JSFUtil.crearMensajeError("Error al enviar el correo a " + correo);
+				this.managerAuditoria.registrarAccion(cedulaEmp, "Error", ex.getMessage());
+			}
+		}
+	}
+
 	private void guardarUsuarioSesion() {
 		this.managerAuditoria.registrarAccion(cedulaEmp, "Éxito", "Iniciar Sesión");
-		FacesContext.getCurrentInstance()
-		.getExternalContext().getSessionMap().put("usuario", cedulaEmp);
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", cedulaEmp);
 	}
 
 	public String actionSalir() {
@@ -101,7 +138,7 @@ public class ControllerLogin {
 					else
 						return;
 				}
-				
+
 				if (Rol.equals("AUDITOR")) {
 					if (!path.contains("/auditor/"))
 						ec.redirect(ec.getRequestContextPath() + "/faces/login.xhtml");
@@ -122,7 +159,7 @@ public class ControllerLogin {
 	public String actionReturnMedico() {
 		return "/medico/index?faces-redirect=true";
 	}
-	
+
 	public String actionReturnAuditor() {
 		return "/auditor/index?faces-redirect=true";
 	}

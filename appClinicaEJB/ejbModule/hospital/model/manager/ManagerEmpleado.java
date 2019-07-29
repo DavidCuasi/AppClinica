@@ -125,8 +125,7 @@ public class ManagerEmpleado {
 
 	}
 
-	public void UpdateEmpleado(String cedulaEmp, long idArea, String cargoUs, String paswordUs, String activoEmp)
-			throws Exception {
+	public void UpdateEmpleado(String cedulaEmp, long idArea, String cargoUs, String activoEmp) throws Exception {
 		Empleado e = findEmpleadoById(cedulaEmp);
 		if (e == null)
 			throw new Exception("No existe el empleado especificado");
@@ -137,8 +136,11 @@ public class ManagerEmpleado {
 		if (a != null)
 			e.setAreaTrabajo(a);
 		e.setCargoUs(cargoUs);
-		e.setPaswordUs(paswordUs);
 		e.setActivoEmp(activoEmp);
+		em.merge(e);
+	}
+
+	public void UpdateEmpleado(Empleado e) {
 		em.merge(e);
 	}
 

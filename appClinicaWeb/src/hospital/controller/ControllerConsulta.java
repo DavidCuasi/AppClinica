@@ -26,11 +26,6 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
-/**
- * 
- * @author Santiago Lomas Almeida
- *
- */
 @ManagedBean
 @SessionScoped
 public class ControllerConsulta {
